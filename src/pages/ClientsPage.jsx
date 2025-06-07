@@ -21,7 +21,9 @@ export default function ClientsPage() {
         hasMore: data && data.length === prev.limit
       }));
     } catch (err) {
-      setError('Failed to load clients: ' + err.message);
+      const errorMsg = 'Failed to load clients: ' + err.message;
+      setError(errorMsg);
+      alert(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -54,7 +56,9 @@ export default function ClientsPage() {
       setPagination(prev => ({ ...prev, skip: 0 }));
       await loadClients();
     } catch (err) {
-      setError('Failed to save client: ' + err.message);
+      const errorMsg = 'Failed to save client: ' + err.message;
+      setError(errorMsg);
+      alert(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -77,7 +81,9 @@ export default function ClientsPage() {
       await clientsApi.deleteClient(clientId);
       await loadClients();
     } catch (err) {
-      setError('Failed to delete client: ' + err.message);
+      const errorMsg = 'Failed to delete client: ' + err.message;
+      setError(errorMsg);
+      alert(errorMsg);
     } finally {
       setLoading(false);
     }

@@ -21,7 +21,9 @@ export default function NetworksPage() {
         hasMore: data && data.length === prev.limit
       }));
     } catch (err) {
-      setError('Failed to load networks: ' + err.message);
+      const errorMsg = 'Failed to load networks: ' + err.message;
+      setError(errorMsg);
+      alert(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -54,7 +56,9 @@ export default function NetworksPage() {
       setPagination(prev => ({ ...prev, skip: 0 }));
       await loadNetworks();
     } catch (err) {
-      setError('Failed to save network: ' + err.message);
+      const errorMsg = 'Failed to save network: ' + err.message;
+      setError(errorMsg);
+      alert(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -77,7 +81,9 @@ export default function NetworksPage() {
       await networksApi.deleteNetwork(networkId);
       await loadNetworks();
     } catch (err) {
-      setError('Failed to delete network: ' + err.message);
+      const errorMsg = 'Failed to delete network: ' + err.message;
+      setError(errorMsg);
+      alert(errorMsg);
     } finally {
       setLoading(false);
     }
