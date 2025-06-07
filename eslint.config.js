@@ -7,8 +7,17 @@ export default [
   { ignores: ['dist'] },
   {
     files: ['**/*.test.jsx'],
-    env: {
-      vitest: true, // or jest: true if using Jest
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: {
+        ...globals.browser,
+        ...globals.vitest, // Add vitest globals for test files
+      },
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
+      },
     },
   },
   {
