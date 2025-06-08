@@ -13,19 +13,19 @@ vi.mock('../services/api', () => ({
   }
 }))
 
-// Mock window.alert
-const mockAlert = vi.fn()
-globalThis.alert = mockAlert
-
 // Mock window.confirm
 const mockConfirm = vi.fn()
 globalThis.confirm = mockConfirm
 
+// Mock console.error
+const mockConsoleError = vi.fn()
+globalThis.console.error = mockConsoleError
+
 describe('NetworksPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockAlert.mockClear()
     mockConfirm.mockClear()
+    mockConsoleError.mockClear()
   })
 
   afterEach(() => {
@@ -73,7 +73,7 @@ describe('NetworksPage', () => {
     })
   })
 
-  it('shows error message and alert when loading networks fails', async () => {
+  it('shows error message and console error when loading networks fails', async () => {
     const errorMessage = 'Network error'
     networksApi.getNetworks.mockRejectedValue(new Error(errorMessage))
 
@@ -83,7 +83,7 @@ describe('NetworksPage', () => {
       expect(screen.getByText(`Failed to load networks: ${errorMessage}`)).toBeInTheDocument()
     })
 
-    expect(mockAlert).toHaveBeenCalledWith(`Failed to load networks: ${errorMessage}`)
+    expect(mockConsoleError).toHaveBeenCalledWith(`Failed to load networks: ${errorMessage}`)
   })
 
   it('shows add network form when Add New Network button is clicked', async () => {
@@ -165,7 +165,7 @@ describe('NetworksPage', () => {
     })
   })
 
-  it('shows error and alert when creating network fails', async () => {
+  it('shows error and console error when creating network fails', async () => {
     const errorMessage = 'Validation error'
     networksApi.getNetworks.mockResolvedValue([])
     networksApi.createNetwork.mockRejectedValue(new Error(errorMessage))
@@ -193,7 +193,7 @@ describe('NetworksPage', () => {
       expect(screen.getByText(`Failed to save network: ${errorMessage}`)).toBeInTheDocument()
     })
 
-    expect(mockAlert).toHaveBeenCalledWith(`Failed to save network: ${errorMessage}`)
+    expect(mockConsoleError).toHaveBeenCalledWith(`Failed to save network: ${errorMessage}`)
   })
 
   it('edits an existing network', async () => {
@@ -288,7 +288,7 @@ describe('NetworksPage', () => {
     expect(networksApi.deleteNetwork).not.toHaveBeenCalled()
   })
 
-  it('shows error and alert when deleting network fails', async () => {
+  it('shows error and console error when deleting network fails', async () => {
     const errorMessage = 'Delete failed'
     const mockNetworks = [{ id: 1, ipv4: '192.168.1.0/24' }]
     networksApi.getNetworks.mockResolvedValue(mockNetworks)
@@ -307,7 +307,7 @@ describe('NetworksPage', () => {
       expect(screen.getByText(`Failed to delete network: ${errorMessage}`)).toBeInTheDocument()
     })
 
-    expect(mockAlert).toHaveBeenCalledWith(`Failed to delete network: ${errorMessage}`)
+    expect(mockConsoleError).toHaveBeenCalledWith(`Failed to delete network: ${errorMessage}`)
   })
 
   it('handles pagination correctly', async () => {

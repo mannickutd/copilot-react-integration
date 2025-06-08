@@ -13,19 +13,19 @@ vi.mock('../services/api', () => ({
   }
 }))
 
-// Mock window.alert
-const mockAlert = vi.fn()
-globalThis.alert = mockAlert
-
 // Mock window.confirm
 const mockConfirm = vi.fn()
 globalThis.confirm = mockConfirm
 
+// Mock console.error
+const mockConsoleError = vi.fn()
+globalThis.console.error = mockConsoleError
+
 describe('ClientsPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockAlert.mockClear()
     mockConfirm.mockClear()
+    mockConsoleError.mockClear()
   })
 
   afterEach(() => {
@@ -58,7 +58,7 @@ describe('ClientsPage', () => {
     expect(clientsApi.getClients).toHaveBeenCalledWith(0, 10)
   })
 
-  it('shows error message and alert when loading clients fails', async () => {
+  it('shows error message and console error when loading clients fails', async () => {
     const errorMessage = 'Network error'
     clientsApi.getClients.mockRejectedValue(new Error(errorMessage))
 
@@ -68,7 +68,7 @@ describe('ClientsPage', () => {
       expect(screen.getByText(`Failed to load clients: ${errorMessage}`)).toBeInTheDocument()
     })
 
-    expect(mockAlert).toHaveBeenCalledWith(`Failed to load clients: ${errorMessage}`)
+    expect(mockConsoleError).toHaveBeenCalledWith(`Failed to load clients: ${errorMessage}`)
   })
 
   it('shows add client form when Add New Client button is clicked', async () => {
@@ -125,7 +125,7 @@ describe('ClientsPage', () => {
     expect(clientsApi.getClients).toHaveBeenCalledTimes(2) // Once on mount, once after creation
   })
 
-  it('shows error and alert when creating client fails', async () => {
+  it('shows error and console error when creating client fails', async () => {
     const errorMessage = 'Validation error'
     clientsApi.getClients.mockResolvedValue([])
     clientsApi.createClient.mockRejectedValue(new Error(errorMessage))
@@ -153,7 +153,7 @@ describe('ClientsPage', () => {
       expect(screen.getByText(`Failed to save client: ${errorMessage}`)).toBeInTheDocument()
     })
 
-    expect(mockAlert).toHaveBeenCalledWith(`Failed to save client: ${errorMessage}`)
+    expect(mockConsoleError).toHaveBeenCalledWith(`Failed to save client: ${errorMessage}`)
   })
 
   it('requires name field when creating client', async () => {
@@ -254,7 +254,7 @@ describe('ClientsPage', () => {
     expect(clientsApi.deleteClient).not.toHaveBeenCalled()
   })
 
-  it('shows error and alert when deleting client fails', async () => {
+  it('shows error and console error when deleting client fails', async () => {
     const errorMessage = 'Delete failed'
     const mockClients = [{ id: 1, name: 'Client 1' }]
     clientsApi.getClients.mockResolvedValue(mockClients)
@@ -273,7 +273,7 @@ describe('ClientsPage', () => {
       expect(screen.getByText(`Failed to delete client: ${errorMessage}`)).toBeInTheDocument()
     })
 
-    expect(mockAlert).toHaveBeenCalledWith(`Failed to delete client: ${errorMessage}`)
+    expect(mockConsoleError).toHaveBeenCalledWith(`Failed to delete client: ${errorMessage}`)
   })
 
   it('handles pagination correctly', async () => {

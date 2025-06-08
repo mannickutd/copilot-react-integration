@@ -23,7 +23,7 @@ export default function ClientsPage() {
     } catch (err) {
       const errorMsg = 'Failed to load clients: ' + err.message;
       setError(errorMsg);
-      alert(errorMsg);
+      console.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -58,7 +58,7 @@ export default function ClientsPage() {
     } catch (err) {
       const errorMsg = 'Failed to save client: ' + err.message;
       setError(errorMsg);
-      alert(errorMsg);
+      console.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -83,7 +83,7 @@ export default function ClientsPage() {
     } catch (err) {
       const errorMsg = 'Failed to delete client: ' + err.message;
       setError(errorMsg);
-      alert(errorMsg);
+      console.error(errorMsg);
     } finally {
       setLoading(false);
     }

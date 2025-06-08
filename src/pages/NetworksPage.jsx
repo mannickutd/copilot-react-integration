@@ -23,7 +23,7 @@ export default function NetworksPage() {
     } catch (err) {
       const errorMsg = 'Failed to load networks: ' + err.message;
       setError(errorMsg);
-      alert(errorMsg);
+      console.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -58,7 +58,7 @@ export default function NetworksPage() {
     } catch (err) {
       const errorMsg = 'Failed to save network: ' + err.message;
       setError(errorMsg);
-      alert(errorMsg);
+      console.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -83,7 +83,7 @@ export default function NetworksPage() {
     } catch (err) {
       const errorMsg = 'Failed to delete network: ' + err.message;
       setError(errorMsg);
-      alert(errorMsg);
+      console.error(errorMsg);
     } finally {
       setLoading(false);
     }
